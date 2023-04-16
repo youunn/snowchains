@@ -628,6 +628,22 @@ impl Html {
                     match node.value() {
                         Node::Text(t) => ret += t,
                         Node::Element(e) if e.name() == "br" => ret.push('\n'),
+                        Node::Element(e) if e.name() == "div" => {
+                            if let Some(element) = ElementRef::wrap(node) {
+                                if let Some(child) = element.first_child() {
+                                    match child.value() {
+                                        Node::Text(text) => {
+                                            ret.push_str(text);
+                                            ret.push('\n');
+                                        }
+                                        Node::Element(e) if e.name() == "br" => {
+                                            ret.push('\n');
+                                        },
+                                        _ => (),
+                                    }
+                                }
+                            }
+                        }
                         _ => {}
                     }
                     ret
