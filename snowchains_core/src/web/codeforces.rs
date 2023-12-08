@@ -546,7 +546,7 @@ impl Html {
             .select(static_selector!("#pageContent div.time-limit"))
             .flat_map(|r| r.text())
             .flat_map(|text| {
-                let caps = lazy_regex!(r#"\A([0-9]{1,9})(\.[0-9])? seconds?\z"#).captures(text)?;
+                let caps = lazy_regex!(r#"\A([0-9]{1,9})(\.[0-9])? s(econds?)?\z"#).captures(text)?;
                 let secs = caps[1].parse::<u64>().unwrap();
                 let nanos = caps
                     .get(2)
